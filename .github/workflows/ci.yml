@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger pipeline on push to master branch
+  pull_request:
+    branches:
+      - main  # Trigger pipeline on pull requests to master branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Specify the Node.js version
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step 4: Run tests
+    - name: Run tests
+      run: npm test
+
+    # Step 5: Build
+    - name: Build app
+      run: npm run build
+
+    # Step 6: Deploy
+    - name: Deploy to Heroku (ecommerce)
+      if: success()  # Only run this step if previous steps succeed
+      run: |
+        git remote add heroku https://git.heroku.com/ecommerce-app.git
+        git push heroku main
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
