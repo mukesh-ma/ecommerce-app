@@ -4,7 +4,7 @@
   "description": "ecommerce-app",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand --forceExit",
     "start": "node server.js"
   },
   "keywords": [],
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "supertest": "^7.1.0"
+    "supertest": "^7.1.1"
   },
   "directories": {
     "test": "test"
