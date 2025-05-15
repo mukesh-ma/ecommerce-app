@@ -1,20 +1,33 @@
 {
   "name": "ecommerce-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "ecommerce-app",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongoose": "^8.13.2"
+    "mongoose": "^8.14.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "supertest": "^7.1.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mukesh-ma/ecommerce-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mukesh-ma/ecommerce-app/issues"
+  },
+  "homepage": "https://github.com/mukesh-ma/ecommerce-app#readme"
 }

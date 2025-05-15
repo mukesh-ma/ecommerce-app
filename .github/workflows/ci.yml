@@ -1,45 +1,50 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
+# Trigger the workflow on push to any branch and on pull request to the main branch
 on:
   push:
     branches:
-      - main  # Trigger pipeline on push to master branch
+      - '**'
   pull_request:
     branches:
-      - main  # Trigger pipeline on pull requests to master branch
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    # Step 1: Checkout code
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Check out the code
+      uses: actions/checkout@v3
 
-    # Step 2: Set up Node.js
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Specify the Node.js version
+        node-version: '16'  # Specify the Node.js version (you can change this to the version you're using)
 
-    # Step 3: Install dependencies
     - name: Install dependencies
-      run: npm install
-
-    # Step 4: Run tests
-    - name: Run tests
-      run: npm test
-
-    # Step 5: Build
-    - name: Build app
-      run: npm run build
-
-    # Step 6: Deploy
-    - name: Deploy to Heroku (ecommerce)
-      if: success()  # Only run this step if previous steps succeed
       run: |
-        git remote add heroku https://git.heroku.com/ecommerce-app.git
-        git push heroku main
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        npm install
+
+    - name: Run tests (if any)
+      run: |
+        npm test  # This assumes you have a test script defined in package.json
+        # If you don't have tests, you can skip this step or modify it
+
+    - name: Build the application (optional)
+      run: |
+        npm run build  # Run build if you have a build script in package.json (optional)
+
+    - name: Check for Dockerfile (optional)
+      run: |
+        if test -f "Dockerfile"; then echo "Dockerfile exists"; else echo "No Dockerfile found"; fi
+
+    - name: Build Docker image (optional)
+      run: |
+        docker build -t ecommerce-app .
+        docker images
+
+    - name: Run application (optional, only for verification)
+      run: |
+        docker run -d -p 3000:3000 ecommerce-app
+        curl http://localhost:3000  # Test if the server responds
