@@ -4,7 +4,7 @@
   "description": "ecommerce-app",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --forceExit",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
     "start": "node server.js"
   },
   "keywords": [],
